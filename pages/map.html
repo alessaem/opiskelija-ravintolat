@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <title>Lounaat</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="../main.html">Etusivu</a></li>
+          <li><a href="restaurants.html">Ravintolat</a></li>
+          <li><a href="map.html">Kartta</a></li>
+        </ul>
+        <div class="dropdown">
+          <button class="dropbtn">Kirjaudu sisään ▼</button>
+          <div class="dropdown-content">
+            <form>
+              <label for="username">Käyttäjätunnus</label>
+              <input type="text" id="username" name="username" required />
+
+              <label for="password">Salasana</label>
+              <input type="password" id="password" name="password" required />
+
+              <button id="log-in-btn">Kirjaudu</button>
+              <a href="signup.html">Luo uusi käyttäjätunnus</a>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div>
+      <h1>Kartta sivu</h1>
+      <p>
+        Sivulle tulee interaktiivinen kartta, josta voi selailla ja valita
+        haluamansa ravintolan, jonka tietoja haluaa nähdä. viikon listaan
+        korostus siitä mikä päivä on meneillään.
+      </p>
+      <div id="mapContainer">
+        <div id="mapdiv">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63509.81066765581!2d24.806757411723297!3d60.169450027743075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920b6fd045c7dd%3A0xb92cc91a95ba169!2sSodexo%20Helsingin%20yliopisto%20P%C3%A4%C3%A4rakennus!5e0!3m2!1sfi!2sfi!4v1743143245694!5m2!1sfi!2sfi"
+            width="600"
+            height="450"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div class="mapInfo">
+          <div class="mapRestaurant">
+            <p id="name">ravintolan nimi</p>
+            <p id="address">ravintolan osoite</p>
+            <p id="hours">Aukioloajat</p>
+          </div>
+          <div class="mapMenu">
+            <p><strong>📅 Viikon ruokalista:</strong></p>
+            <p id="chosenday">Ma: Spagetti bolognese</p>
+            <p>Ti: Kaalikääryleet</p>
+            <p>Ke: Kalakeitto</p>
+            <p>To: Kanarisotto</p>
+            <p>Pe: Kasvislasagne</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div id="footer">
+        <p>Opiskelijalounaat sivusto</p>
+      </div>
+    </footer>
+  </body>
+</html>
