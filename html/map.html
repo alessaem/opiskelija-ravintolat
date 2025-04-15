@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/styles/style.css" />
+    <script src="../js/main.js" type="module"></script>
+    <script src="../js/pages/mapPage.js" type="module"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <title>Lounaat</title>
+  </head>
+  <body>
+    <header></header>
+    <div>
+      <h1>Kartta sivu</h1>
+      <p>
+        Sivulle tulee interaktiivinen kartta, josta voi selailla ja valita
+        haluamansa ravintolan, jonka tietoja haluaa nähdä. viikon listaan
+        korostus siitä mikä päivä on meneillään.
+      </p>
+      <div id="mapContainer">
+        <div id="mapDiv"></div>
+        <div class="mapInfo"></div>
+      </div>
+    </div>
+    <footer>
+      <div id="footer">
+        <p>Opiskelijalounaat sivusto</p>
+      </div>
+    </footer>
+  </body>
+</html>

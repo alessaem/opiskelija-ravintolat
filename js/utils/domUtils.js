@@ -1,5 +1,5 @@
 'use strict';
 
-function toggleDetails(element) {
+export function toggleDetails(element) {
   element.classList.toggle('open');
 }
