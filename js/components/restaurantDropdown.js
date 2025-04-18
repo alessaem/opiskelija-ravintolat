@@ -1,11 +1,24 @@
 'use strict';
 import {toggleDetails} from '../utils/domUtils.js';
+import {saveFavoriteRestaurant} from '../api/user.js';
 
-export function restaurantDropdown(restaurant, dayMenu, weekMenu) {
+export function restaurantDropdown(
+  restaurant,
+  dayMenu,
+  weekMenu,
+  favouriteId = null
+) {
   const restaurantDiv = document.querySelector('.restaurantBoxDiv');
   const container = document.createElement('div');
   container.className = 'restaurant';
   container.addEventListener('click', () => toggleDetails(container));
+  const token = localStorage.getItem('token');
+
+  const isFavourite = favouriteId && restaurant._id === favouriteId;
+  const heartIcon = isFavourite ? '&#x2665;' : '&#x2661;';
+  const heartElement = token
+    ? `<span class="favorite-btn" title="Tallenna suosikiksi">${heartIcon}</span>`
+    : '';
 
   let dayMenuHtml = '';
 
@@ -72,7 +85,14 @@ export function restaurantDropdown(restaurant, dayMenu, weekMenu) {
   container.innerHTML = `
     <div class="header">
           <span>${restaurant.name}</span>
-          <span class="arrow">▶</span>
+
+          <div class="header-right">
+      <span class="arrow">▶</span>
+      ${heartElement}
+    </div>
+        </div>
+
+
         </div>
 
         <div class="details">
@@ -111,5 +131,34 @@ export function restaurantDropdown(restaurant, dayMenu, weekMenu) {
     weekMenuDiv.classList.remove('hidden');
     dayMenuDiv.classList.add('hidden');
   });
+
+  if (token) {
+    const favoriteBtn = container.querySelector('.favorite-btn');
+    favoriteBtn.addEventListener('click', async (event) => {
+      event.stopPropagation();
+      console.log(token);
+      console.log(restaurant._id);
+
+      if (!token) {
+        alert('Kirjaudu sisään tallentaaksesi suosikin!');
+        return;
+      }
+
+      try {
+        const response = await saveFavoriteRestaurant(token, restaurant._id);
+
+        if (!response.ok) {
+          throw new Error('Tallennus epäonnistui');
+        }
+
+        console.log(response);
+
+        favoriteBtn.textContent = '&#9829;';
+      } catch (err) {
+        console.error('Virhe suosikin tallennuksessa:', err);
+      }
+    });
+  }
+
   restaurantDiv.appendChild(container);
 }

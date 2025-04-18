@@ -8,6 +8,7 @@ import {
   fetchWeeklyMenu,
   fetchDailyMenu,
 } from '../api/restaurants.js';
+import {getUserInfo} from '../api/user.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const nameInput = document.getElementById('name');
@@ -15,6 +16,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const citySelect = document.getElementById('city');
   const searchForm = document.querySelector('.searchForm');
   const filterSelect = document.getElementById('filter');
+  const token = localStorage.getItem('token');
+  let user = null;
+  if (token) {
+    user = await getUserInfo(token);
+  }
 
   try {
     const allRestaurants = await fetchAllRestaurants();
@@ -57,8 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return matchName && matchProvider && matchCity;
       });
 
-      // Hae menut ja näytä vain filtteröidyt
-      renderFilteredRestaurants(filtered);
+      renderFilteredRestaurants(filtered, user.favouriteRestaurant);
     });
 
     filterSelect.addEventListener('change', async (e) => {
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sorted = await getSortedRestaurantsByDistance(userLoc, sorted);
       }
 
-      renderFilteredRestaurants(sorted);
+      renderFilteredRestaurants(sorted, user.favouriteRestaurant);
     });
 
     const dailyMenus = await Promise.all(
@@ -86,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     orderByName.forEach((restaurant, index) => {
       const daily = dailyMenus[index];
       const weekly = weeklyMenus[index];
-      restaurantDropdown(restaurant, daily, weekly);
+      restaurantDropdown(restaurant, daily, weekly, user.favouriteRestaurant);
     });
   } catch (error) {
     console.error(error);
@@ -97,9 +102,9 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-async function renderFilteredRestaurants(restaurants) {
-  const container = document.querySelector('.restaurantBoxDiv'); // vaihda oikea
-  container.innerHTML = ''; // tyhjennä ennen uudelleenpiirtoa
+async function renderFilteredRestaurants(restaurants, favourite) {
+  const container = document.querySelector('.restaurantBoxDiv');
+  container.innerHTML = '';
 
   const dailyMenus = await Promise.all(
     restaurants.map((r) => fetchDailyMenu(r._id))
@@ -109,6 +114,6 @@ async function renderFilteredRestaurants(restaurants) {
   );
 
   restaurants.forEach((r, i) => {
-    restaurantDropdown(r, dailyMenus[i], weeklyMenus[i]);
+    restaurantDropdown(r, dailyMenus[i], weeklyMenus[i], favourite);
   });
 }
