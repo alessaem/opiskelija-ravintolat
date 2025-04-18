@@ -1,5 +1,6 @@
 ' use strict';
 import {getUserInfo, updateUser, uploadAvatar} from '../api/user.js';
+import {fetchAllRestaurants, fetchRestaurant} from '../api/restaurants.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
@@ -8,6 +9,34 @@ document.addEventListener('DOMContentLoaded', async () => {
   const username = document.getElementById('profileUsername');
   const email = document.getElementById('profileEmail');
   const form = document.getElementById('profileForm');
+  const select = document.getElementById('favouriteSelect');
+
+  const restaurants = await fetchAllRestaurants();
+  restaurants.forEach((n) => {
+    const option = document.createElement('option');
+    option.value = n._id;
+    option.textContent = n.name;
+    select.appendChild(option);
+  });
+
+  if (token) {
+    const user = await getUserInfo(token);
+    console.log(user);
+
+    if (user.avatar) {
+      avatar.src = `https://media2.edu.metropolia.fi/restaurant/uploads/${user.avatar}`;
+    } else {
+      avatar.src = '../../images/anonyme-avatar.svg';
+    }
+
+    username.value = user.username;
+    email.value = user.email;
+
+    if (user.favouriteRestaurant) {
+      const favourite = await fetchRestaurant(user.favouriteRestaurant);
+      select.value = favourite._id;
+    }
+  }
 
   avatarInput.addEventListener('change', () => {
     const file = avatarInput.files[0];
@@ -25,7 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     e.preventDefault();
 
     try {
-      // Lataa uusi kuva vain jos käyttäjä valitsi sellaisen
       let avatarFileName = null;
       const file = avatarInput.files[0];
 
@@ -37,9 +65,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       const userData = {
         username: username.value,
         email: email.value,
+        favouriteRestaurant: select.value,
       };
 
-      // Lisää avatar, jos se on valittu
       if (avatarFileName) {
         userData.avatar = avatarFileName.data.avatar;
       }
@@ -51,18 +79,4 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.log('Virhe profiilin päivityksessä:', err);
     }
   });
-
-  if (token) {
-    const user = await getUserInfo(token);
-    console.log(user);
-
-    if (user.avatar) {
-      avatar.src = `https://media2.edu.metropolia.fi/restaurant/uploads/${user.avatar}`;
-    } else {
-      avatar.src = '../../images/anonyme-avatar.svg';
-    }
-
-    username.value = user.username;
-    email.value = user.email;
-  }
 });
