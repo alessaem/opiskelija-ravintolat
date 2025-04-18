@@ -3,10 +3,45 @@ import {
   getSortedRestaurantsByDistance,
   getUserLocation,
 } from '../utils/locationUtils.js';
-import {fetchAllRestaurants, fetchWeeklyMenu} from '../api/restaurants.js';
+import {
+  fetchAllRestaurants,
+  fetchWeeklyMenu,
+  fetchRestaurant,
+} from '../api/restaurants.js';
+import {getUserInfo} from '../api/user.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  const togglediv = document.querySelector('.mainPageToggle');
+  const lunchlist = document.querySelector('.lunchList');
   try {
+    if (token) {
+      const user = await getUserInfo(token);
+      const favorite = await fetchRestaurant(user.favouriteRestaurant);
+      const favoriteMenu = await fetchWeeklyMenu(favorite._id);
+      console.log(favoriteMenu);
+      togglediv.innerHTML = `<button class="mainButton" id="closestButton">Lähin ravintola</button>
+        <button class="mainButton" id="favouriteButton">
+          Suosikki ravintola
+        </button>`;
+      const closestbtn = togglediv.querySelector('#closestButton');
+      const favoritebtn = togglediv.querySelector('#favouriteButton');
+
+      closestbtn.addEventListener('click', () => {
+        lunchlist.innerHTML = '';
+
+        renderRestaurantMenu(closest, menu);
+      });
+
+      favoritebtn.addEventListener('click', () => {
+        lunchlist.innerHTML = '';
+        if (favoriteMenu.length === 0) {
+          lunchlist.innerHTML = `Ei ruokalistaa saatavilla`;
+        } else {
+          renderRestaurantMenu(favorite, favoriteMenu);
+        }
+      });
+    }
     const allRestaurants = await fetchAllRestaurants();
     console.log(allRestaurants);
     const userCoordinates = await getUserLocation();
