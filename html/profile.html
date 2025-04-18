@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/styles/style.css" />
+    <script src="../js/pages/profilePage.js" type="module"></script>
+    <script src="../js/main.js" type="module"></script>
+
+    <title>Lounaat</title>
+  </head>
+  <body>
+    <header></header>
+    <div>
+      <h1>Profiili</h1>
+      <div class="profileContainer">
+        <form id="profileForm">
+          <div class="avatar">
+            <img
+              src="../images/anonyme-avatar.svg"
+              alt="profile picture"
+              id="avatarPic"
+            />
+            <input type="file" id="avatar" name="avatar" accept="image/*" />
+          </div>
+          <div>
+            <label for="username">Käyttäjätunnus</label>
+            <input type="text" id="profileUsername" name="username" />
+            <label for="password">Salasana:</label>
+            <div class="password-container">
+              <input
+                type="password"
+                name="password"
+                id="profilePassword"
+                class="password"
+              />
+              <button type="button" id="togglePassword" class="toggle-password">
+                👁️
+              </button>
+            </div>
+
+            <label for="email">Sähköposti</label>
+            <input type="email" id="profileEmail" name="email" />
+          </div>
+
+          <button id="save-btn" type="submit">Tallenna muutokset</button>
+        </form>
+      </div>
+    </div>
+    <footer>
+      <div id="footer">
+        <p>Opiskelijalounaat sivusto</p>
+      </div>
+    </footer>
+  </body>
+</html>
