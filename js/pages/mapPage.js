@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     [userCoords.latitude, userCoords.longitude],
     14
   );
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-  }).addTo(map);
+  const light = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+  );
+  light.addTo(map);
 
   const userMarker = L.marker([userCoords.latitude, userCoords.longitude])
 

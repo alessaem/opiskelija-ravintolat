@@ -5,10 +5,23 @@ export const mapInfo = (restaurant, menu) => {
   const mapInfo = document.querySelector('.mapInfo');
   mapInfo.innerHTML = '';
 
+  if (!restaurant) {
+    // Show map instructions
+    mapInfo.classList.remove('grid'); // Remove grid layout
+    mapInfo.innerHTML = `
+      <div id="mapInstruction">
+        <p>
+          <strong>Valitse ravintola tarkastellaksesi sen tietoja</strong>
+        </p>
+      </div>
+    `;
+    return;
+  }
+  mapInfo.classList.add('grid');
   const mapRestaurant = document.createElement('div');
   mapRestaurant.className = 'mapRestaurant';
   mapRestaurant.innerHTML = `
- <p id="name">${restaurant.name}</p>
+ <p id="name"><strong>${restaurant.name}</strong></p>
   <p id="address"><strong>Osoite: </strong>${restaurant.address}, ${restaurant.postalCode} ${restaurant.city}</p>
   <p><strong>Palveluntarjoaja:</strong> ${restaurant.company}</p>
   <p><strong>Yhteystiedot:</strong> ${restaurant.phone}</p>
@@ -16,15 +29,20 @@ export const mapInfo = (restaurant, menu) => {
   mapInfo.appendChild(mapRestaurant);
 
   const closeBtn = document.createElement('button');
-  closeBtn.textContent = 'Sulje';
+  closeBtn.innerHTML = `&#128473;`;
   closeBtn.className = 'close-btn';
   closeBtn.addEventListener('click', () => {
-    mapInfo.innerHTML = '';
+    mapInfo.innerHTML = `<div id="mapInstruction">
+            <p >
+              <strong>Valitse ravintola tarkastellaksesi sen tietoja</strong>
+            </p>
+          </div>`;
+    mapInfo.classList.remove('grid');
   });
 
-  mapRestaurant.appendChild(closeBtn);
-
   const mapMenu = document.createElement('div');
+  mapMenu.className = 'mapMenu';
+  mapMenu.appendChild(closeBtn);
   const section = document.createElement('section');
 
   if (menu?.days?.length) {
@@ -62,6 +80,11 @@ export const mapInfo = (restaurant, menu) => {
       section.appendChild(article);
     });
     mapMenu.appendChild(section);
+  } else {
+    const noMenuMessage = document.createElement('p');
+    noMenuMessage.textContent = 'Ei ruokalistaa saatavilla';
+    mapMenu.appendChild(noMenuMessage);
   }
+
   mapInfo.appendChild(mapMenu);
 };
