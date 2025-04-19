@@ -41,6 +41,10 @@ export function restaurantDropdown(
 
   let weekMenuDiv = document.createElement('div');
   weekMenuDiv.classList.add('week-menu');
+
+  const weekHeader = document.createElement('p');
+  weekHeader.innerHTML = `<strong>Viikon ruokalista:</strong>`;
+  weekMenuDiv.appendChild(weekHeader);
   const section = document.createElement('section');
 
   if (weekMenu?.days?.length) {
@@ -78,6 +82,10 @@ export function restaurantDropdown(
       section.appendChild(article);
     });
     weekMenuDiv.appendChild(section);
+  } else {
+    const noMenuMessage = document.createElement('p');
+    noMenuMessage.textContent = 'Ei viikon ruokalistaa saatavilla';
+    weekMenuDiv.appendChild(noMenuMessage);
   }
 
   weekMenuDiv.classList.add('hidden');

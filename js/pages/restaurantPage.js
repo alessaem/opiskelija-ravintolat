@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sorted = await getSortedRestaurantsByDistance(userLoc, sorted);
       }
 
-      renderFilteredRestaurants(sorted, user.favouriteRestaurant);
+      renderFilteredRestaurants(sorted, user?.favouriteRestaurant);
     });
 
     const dailyMenus = await Promise.all(
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     orderByName.forEach((restaurant, index) => {
       const daily = dailyMenus[index];
       const weekly = weeklyMenus[index];
-      restaurantDropdown(restaurant, daily, weekly, user.favouriteRestaurant);
+      restaurantDropdown(restaurant, daily, weekly, user?.favouriteRestaurant);
     });
   } catch (error) {
     console.error(error);
