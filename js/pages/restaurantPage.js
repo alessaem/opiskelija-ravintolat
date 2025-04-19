@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       citySelect.appendChild(option);
     });
 
+    let filteredRestaurants = [...allRestaurants];
+
     searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const provider = providerSelect.value;
       const city = citySelect.value;
 
-      const filtered = allRestaurants.filter((r) => {
+      filteredRestaurants = allRestaurants.filter((r) => {
         const matchName = r.name.toLowerCase().includes(name);
         const matchProvider = provider
           ? r.company.toLowerCase() === provider
@@ -63,13 +65,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         return matchName && matchProvider && matchCity;
       });
 
-      renderFilteredRestaurants(filtered, user.favouriteRestaurant);
+      renderFilteredRestaurants(filteredRestaurants, user?.favouriteRestaurant);
     });
 
     filterSelect.addEventListener('change', async (e) => {
       const sortType = e.target.value;
 
-      let sorted = [...allRestaurants];
+      let sorted = [...filteredRestaurants];
       if (sortType === 'alphabetical') {
         sorted.sort((a, b) => a.name.localeCompare(b.name));
       } else if (sortType === 'location') {
