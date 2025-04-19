@@ -1,6 +1,7 @@
 ' use strict';
 import {getUserInfo, updateUser, uploadAvatar} from '../api/user.js';
 import {fetchAllRestaurants, fetchRestaurant} from '../api/restaurants.js';
+import {setupPasswordToggle} from '../utils/domUtils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
@@ -68,6 +69,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         favouriteRestaurant: select.value,
       };
 
+      const password = form.password?.value;
+      if (password && password.trim() !== '') {
+        userData.password = password;
+      }
+
       if (avatarFileName) {
         userData.avatar = avatarFileName.data.avatar;
       }
@@ -80,3 +86,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 });
+
+setupPasswordToggle('.togglePassword', '.password');
