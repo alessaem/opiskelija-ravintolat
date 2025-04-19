@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       closestbtn.addEventListener('click', () => {
         lunchlist.innerHTML = '';
 
-        renderRestaurantMenu(closest, menu);
+        renderRestaurantMenu(closest, menu, 'Lähin ravintola');
       });
 
       favoritebtn.addEventListener('click', () => {
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (favoriteMenu.length === 0) {
           lunchlist.innerHTML = `Ei ruokalistaa saatavilla`;
         } else {
-          renderRestaurantMenu(favorite, favoriteMenu);
+          renderRestaurantMenu(favorite, favoriteMenu, 'Suosikki ravintola');
         }
       });
     }
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const menu = await fetchWeeklyMenu(closest._id);
     console.log(closest._id);
     console.log(menu);
-    renderRestaurantMenu(closest, menu);
+    renderRestaurantMenu(closest, menu, 'Lähin ravintola');
   } catch (error) {
     console.error('Virhe etusivun latauksessa:', error);
   }

@@ -2,10 +2,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
-  background-color: #f4f4f4;
+  background-color: #d8dad3;
   text-align: center;
   padding-bottom: 50px;
 }
+
+/* Navbar styles */
 
 .navbar {
   display: flex;
@@ -46,7 +48,7 @@ body {
 }
 
 .dropbtn {
-  background-color: #6fcf97;
+  background-color: #6d6d9c;
   color: white;
   border: none;
   padding: 12px 18px;
@@ -58,7 +60,7 @@ body {
 }
 
 .dropbtn:hover {
-  background-color: #57b983;
+  background-color: #7e7eb5;
 }
 
 .dropdown-content {
@@ -70,6 +72,7 @@ body {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   padding: 20px;
   border-radius: 10px;
+  z-index: 10;
 }
 
 .dropdown:hover .dropdown-content {
@@ -104,6 +107,19 @@ body {
   background-color: #2467c1;
 }
 
+.accountDrop {
+  display: flex;
+  flex-direction: column; /* Stack the buttons vertically */
+  gap: 10px; /* Add spacing between the buttons */
+}
+
+.accountBtn a {
+  color: white; /* Ensure the link text is white */
+  text-decoration: none; /* Remove underline from links */
+}
+
+/* footer styles */
+
 footer {
   position: fixed;
   left: 0;
@@ -113,6 +129,8 @@ footer {
   color: white;
   text-align: center;
 }
+
+/* Signup styles (some are also used in the profile page) */
 
 #signup-div {
   background-color: #f4f4f4;
@@ -158,6 +176,83 @@ footer {
   background-color: #2467c1;
 }
 
+#usernameError {
+  color: red;
+}
+
+.password-container {
+  display: flex;
+}
+
+.password {
+  flex: 1;
+}
+
+/* home page styles */
+
+.day-header {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #68a4f3;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.day-header:hover {
+  background-color: #2467c1;
+}
+
+.day-content {
+  padding: 20px;
+  display: none;
+  text-align: left;
+}
+
+.day.open .day-content {
+  display: block;
+}
+
+.menu-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+}
+
+.menu-list li:last-child {
+  border-bottom: none;
+}
+
+.diet {
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+  margin-left: 6px;
+}
+
+#closestButton,
+#favouriteButton {
+  padding: 12px 20px;
+  background-color: #68a4f3;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 .lunchList {
   text-align: center;
 }
@@ -178,12 +273,15 @@ footer {
   margin-bottom: 10px;
 }
 
+/* restaurant page styles */
+
 .filterdiv {
   position: absolute;
   top: 175px;
   right: 20px;
   padding: 10px;
   border-radius: 8px;
+  z-index: 1; /* Lower stacking order */
 }
 
 .filterdiv label {
@@ -300,8 +398,7 @@ footer {
 }
 
 .restaurant {
-  width: 100%;
-  width: fit-content;
+  width: 90%;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -320,6 +417,22 @@ footer {
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
+}
+
+.header span.arrow,
+.header .favorite-btn {
+  margin-left: 10px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.favorite-btn {
+  color: #f66584;
+  font-size: 24px;
 }
 
 .arrow {
@@ -347,16 +460,16 @@ footer {
 }
 
 .menu-toggle {
-  position: relative; /* Ensure the buttons are part of the normal flow */
-  width: 100%; /* Make the menu-toggle span the full width of the container */
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center the buttons horizontally */
-  align-items: center; /* Center the buttons vertically */
-  gap: 10px; /* Add spacing between the buttons */
-  margin-bottom: 20px; /* Add spacing below the buttons */
-  padding: 10px 0; /* Add padding for better spacing */
-  background-color: #f9f9f9; /* Optional: Add a background color to separate the buttons visually */
-  border-bottom: 1px solid #ddd; /* Optional: Add a border to separate the buttons from the content */
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
 .toggle-day-menu,
@@ -396,6 +509,8 @@ footer {
   margin: 5px 0;
 }
 
+/* map page styles */
+
 #mapDiv {
   height: 500px;
   width: 500px;
@@ -416,13 +531,38 @@ footer {
 }
 
 .mapInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  min-height: 450px;
+  min-width: 800px;
+}
+
+.mapInfo.grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: start;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#mapInstruction {
+  text-align: center;
+}
+
+.mapRestaurant {
+  text-align: left;
+  padding: 5%;
+  padding-top: 7%;
+}
+
+.mapMenu {
+  padding: 5%;
+  padding-top: 7%;
+  position: relative;
 }
 
 .day {
@@ -436,53 +576,111 @@ footer {
   transition: all 0.3s ease-in-out;
 }
 
-.day-header {
-  width: 100%;
-  padding: 16px 20px;
-  background-color: #2f80ed;
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #c0c1c4;
   color: white;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: left;
   border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
   cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s ease;
+  font-size: 14px;
+  font-weight: bold;
 }
 
-.day-header:hover {
+.close-btn :hover {
+  background-color: #707072;
+}
+
+/* profile page styles */
+
+#profileForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#profileForm label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+#profileForm input[type='text'],
+#profileForm input[type='email'],
+#profileForm input[type='file'],
+#profileForm input[type='password'],
+#profileForm select {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#save-btn {
+  background-color: #2f80ed;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+#save-btn:hover {
   background-color: #2467c1;
 }
 
-.day-content {
-  padding: 20px;
-  display: none;
-  text-align: left;
+#avatarPreview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 2px solid #ccc;
 }
 
-.day.open .day-content {
+.profileContainer {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background-color: #f4f4f4;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+#avatar {
   display: block;
+  margin: 0 auto;
 }
 
-.menu-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu-list li {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
-}
-
-.menu-list li:last-child {
-  border-bottom: none;
-}
-
-.diet {
-  font-size: 13px;
-  color: #888;
-  font-style: italic;
-  margin-left: 6px;
+#profileForm > div:not(avatar) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }

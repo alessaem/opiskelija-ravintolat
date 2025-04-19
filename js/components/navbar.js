@@ -1,33 +1,3 @@
-// 'use strict';
-
-// export function renderNavbar() {
-
-//   const navbarHTML = `
-//     <nav class="navbar">
-//       <ul class="nav-links">
-//         <li><a href="main.html">Etusivu</a></li>
-//         <li><a href="restaurants.html">Ravintolat</a></li>
-//         <li><a href="map.html">Kartta</a></li>
-//       </ul>
-//       <div class="dropdown">
-//         <button class="dropbtn">Kirjaudu sisään ▼</button>
-//         <div class="dropdown-content">
-//           <form id="login">
-//             <label for="username">Käyttäjätunnus</label>
-//             <input type="text" id="username" name="username" required />
-//             <label for="password">Salasana</label>
-//             <input type="password" id="password" name="password" required />
-//             <button id="log-in-btn">Kirjaudu</button>
-//           </form>
-//           <a href="signup.html">Luo uusi käyttäjätunnus</a>
-//         </div>
-//       </div>
-//     </nav>
-//   `;
-
-//   const header = document.querySelector('header');
-//   header.innerHTML = navbarHTML;
-// }
 'use strict';
 
 export function renderNavbar() {
@@ -49,9 +19,11 @@ export function renderNavbar() {
         <div class="dropdown-content">
           ${
             token
-              ? `
-              <a href="profile.html">Profiili</a>
-              <a href="#" id="logout-link">Kirjaudu ulos</a>
+              ? `<div class="accountDrop">
+                <button class="accountBtn"><a href="profile.html">Profiili</a></button>
+              <button class="accountBtn"><a href="#" id="logout-link">Kirjaudu ulos</a></button>
+              </div>
+
             `
               : `
               <form id="login">
