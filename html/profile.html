@@ -26,12 +26,23 @@
               alt="profile picture"
               id="avatarPic"
             />
+            <label for="avatar" id="avatarLabel" class="file-upload"
+              >Lisää kuva</label
+            >
             <input type="file" id="avatar" name="avatar" accept="image/*" />
           </div>
           <div>
             <label for="username">Käyttäjätunnus:</label>
             <input type="text" id="profileUsername" name="username" />
-            <label for="password">Salasana:</label>
+            <label for="password"
+              >Salasana:<span id="passwordInfo" class="tooltip">
+                &#x1F6C8;
+                <span class="tooltip-text"
+                  >Voit vaihtaa salasanasi syöttämällä uuden ja tallentamalla
+                  muutokset.</span
+                >
+              </span></label
+            >
             <div class="password-container">
               <input
                 type="password"

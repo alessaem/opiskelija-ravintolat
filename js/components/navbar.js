@@ -8,9 +8,9 @@ export function renderNavbar() {
   const navbarHTML = `
     <nav class="navbar">
       <ul class="nav-links">
-        <li><a href="main.html">Etusivu</a></li>
-        <li><a href="restaurants.html">Ravintolat</a></li>
-        <li><a href="map.html">Kartta</a></li>
+        <li><a href="main.html" class="nav-link">Etusivu</a></li>
+        <li><a href="restaurants.html" class="nav-link">Ravintolat</a></li>
+        <li><a href="map.html" class="nav-link">Kartta</a></li>
       </ul>
       <div class="dropdown">
         <button class="dropbtn">${
@@ -43,13 +43,20 @@ export function renderNavbar() {
 
   header.innerHTML = navbarHTML;
 
-  // Lisää logout-toiminto, jos käyttäjä on kirjautunut
+  const currentPage = window.location.pathname.split('/').pop();
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach((link) => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    }
+  });
+
   if (token) {
     const logoutLink = document.getElementById('logout-link');
     logoutLink.addEventListener('click', (e) => {
       e.preventDefault();
       localStorage.removeItem('token');
-      window.location.href = 'main.html'; // tai login.html, mihin haluat ohjata
+      window.location.href = 'main.html';
     });
   }
 }

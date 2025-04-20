@@ -6,6 +6,7 @@ import {setupPasswordToggle} from '../utils/domUtils.js';
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
   const avatarInput = document.getElementById('avatar');
+  const avatarLabel = document.getElementById('avatarLabel');
   const avatar = document.getElementById('avatarPic');
   const username = document.getElementById('profileUsername');
   const email = document.getElementById('profileEmail');
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (user.avatar) {
       avatar.src = `https://media2.edu.metropolia.fi/restaurant/uploads/${user.avatar}`;
+      avatarLabel.innerHTML = 'Vaihda kuva';
     } else {
       avatar.src = '../../images/anonyme-avatar.svg';
     }

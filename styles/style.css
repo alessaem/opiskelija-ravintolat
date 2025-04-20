@@ -42,6 +42,12 @@ body {
   border-radius: 8px;
 }
 
+.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-weight: bold;
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -188,7 +194,18 @@ footer {
   flex: 1;
 }
 
-/* home page styles */
+/* home page styles (also includes the styles for the weekly menu)*/
+
+.day {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  max-width: 800px;
+  margin: 20px auto;
+  transition: all 0.3s ease-in-out;
+}
 
 .day-header {
   width: 100%;
@@ -294,7 +311,7 @@ footer {
   border-radius: 8px;
   background-color: #fff;
   font-size: 16px;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 .searchFormdiv {
@@ -544,7 +561,7 @@ footer {
 
 .mapInfo.grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 20px;
   align-items: start;
 }
@@ -563,17 +580,6 @@ footer {
   padding: 5%;
   padding-top: 7%;
   position: relative;
-}
-
-.day {
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  max-width: 800px;
-  margin: 20px auto;
-  transition: all 0.3s ease-in-out;
 }
 
 .close-btn {
@@ -612,13 +618,52 @@ footer {
 
 #profileForm input[type='text'],
 #profileForm input[type='email'],
-#profileForm input[type='file'],
 #profileForm input[type='password'],
 #profileForm select {
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+}
+
+#profileForm input[type='file'] {
+  display: none;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
 #save-btn {
