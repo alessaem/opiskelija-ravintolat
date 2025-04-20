@@ -1,17 +1,23 @@
 'use strict';
 import {toggleDetails} from '../utils/domUtils.js';
 import {saveFavoriteRestaurant} from '../api/user.js';
+import {fetchDailyMenu, fetchWeeklyMenu} from '../api/restaurants.js';
+import {createWeekMenu} from '../components/weeklyMenu.js';
 
 export function restaurantDropdown(
   restaurant,
-  dayMenu,
-  weekMenu,
+  dayMenu = null,
+  weekMenu = null,
   favouriteId = null
 ) {
   const restaurantDiv = document.querySelector('.restaurantBoxDiv');
   const container = document.createElement('div');
   container.className = 'restaurant';
-  container.addEventListener('click', () => toggleDetails(container));
+  container.addEventListener('click', async () => {
+    toggleDetails(container);
+    const dailyMenu = await fetchDailyMenu(restaurant._id);
+    createDayMenu(dayMenuContent, dailyMenu);
+  });
   const token = localStorage.getItem('token');
 
   const isFavourite = favouriteId && restaurant._id === favouriteId;
@@ -20,113 +26,42 @@ export function restaurantDropdown(
     ? `<span class="favorite-btn" title="Tallenna suosikiksi">${heartIcon}</span>`
     : '';
 
-  let dayMenuHtml = '';
-
-  if (dayMenu?.courses?.length) {
-    dayMenuHtml = dayMenu.courses
-      .map((course) => {
-        let info = `<strong>${course.name}</strong>`;
-        if (course.price) {
-          info += ` - ${course.price}`;
-        }
-        if (Array.isArray(course.diets) && course.diets.length > 0) {
-          info += ` <span class="diet">${course.diets.join(', ')}</span>`;
-        }
-        return `<p>${info}</p>`;
-      })
-      .join('');
-  } else {
-    dayMenuHtml = '<p>Ei päivän ruokalistaa saatavilla</p>';
-  }
-
-  let weekMenuDiv = document.createElement('div');
-  weekMenuDiv.classList.add('week-menu');
-
-  const weekHeader = document.createElement('p');
-  weekHeader.innerHTML = `<strong>Viikon ruokalista:</strong>`;
-  weekMenuDiv.appendChild(weekHeader);
-  const section = document.createElement('section');
-
-  if (weekMenu?.days?.length) {
-    console.log(weekMenu);
-    weekMenu.days.forEach((day) => {
-      const article = document.createElement('article');
-      article.className = 'day';
-      const button = document.createElement('button');
-      button.className = 'day-header';
-      button.innerHTML = `${day.date}`;
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        toggleDetails(article);
-      });
-
-      const dayDiv = document.createElement('div');
-      dayDiv.className = 'day-content';
-      const ul = document.createElement('ul');
-      ul.className = 'menu-list';
-      day.courses.forEach((course) => {
-        const li = document.createElement('li');
-        let info = `<strong>${course.name}</strong>`;
-        if (course.price) {
-          info += ` - ${course.price} `;
-        }
-        if (course.diets) {
-          info += ` <span class="diet">${course.diets}</span>`;
-        }
-        li.innerHTML = info;
-        ul.appendChild(li);
-      });
-      dayDiv.appendChild(ul);
-      article.appendChild(button);
-      article.appendChild(dayDiv);
-      section.appendChild(article);
-    });
-    weekMenuDiv.appendChild(section);
-  } else {
-    const noMenuMessage = document.createElement('p');
-    noMenuMessage.textContent = 'Ei viikon ruokalistaa saatavilla';
-    weekMenuDiv.appendChild(noMenuMessage);
-  }
-
-  weekMenuDiv.classList.add('hidden');
-
   container.innerHTML = `
     <div class="header">
-          <span>${restaurant.name}</span>
-
-          <div class="header-right">
-      <span class="arrow">▶</span>
-      ${heartElement}
+      <span>${restaurant.name}</span>
+      <div class="header-right">
+        <span class="arrow">▶</span>
+        ${heartElement}
+      </div>
     </div>
-        </div>
-
-
-        </div>
-
-        <div class="details">
-        <div class="menu-toggle">
+    <div class="details">
+      <div class="menu-toggle">
         <button class="toggle-day-menu">Näytä päivän ruokalista</button>
         <button class="toggle-week-menu">Näytä viikon ruokalista</button>
       </div>
-          <div class="info">
-            <p><strong>Sijainti:</strong> ${restaurant.address}, ${restaurant.postalCode} ${restaurant.city}</p>
-            <p><strong>Palveluntarjoaja:</strong> ${restaurant.company}</p>
-            <p><strong>Yhteystiedot:</strong> ${restaurant.phone}</p>
-          </div>
-
-
-
-          <div class="day-menu">
-            <p><strong>Päivän ruokalista:</strong></p>
-            ${dayMenuHtml}
-          </div>
-
-        </div>
+      <div class="info">
+        <p><strong>Sijainti:</strong> ${restaurant.address}, ${restaurant.postalCode} ${restaurant.city}</p>
+        <p><strong>Palveluntarjoaja:</strong> ${restaurant.company}</p>
+        <p><strong>Yhteystiedot:</strong> ${restaurant.phone}</p>
+      </div>
+      <div class="day-menu ">
+        <p><strong>Päivän ruokalista:</strong></p>
+        <div class="day-menu-content">Ladataan...</div>
+      </div>
+      <div class="week-menu hidden">
+        <p><strong>Viikon ruokalista:</strong></p>
+        <div class="week-menu-content">Ladataan...</div>
+      </div>
+    </div>
   `;
-  container.querySelector('.details').appendChild(weekMenuDiv);
-  const dayMenuDiv = container.querySelector('.day-menu');
-  const toggleDayMenuButton = container.querySelector('.toggle-day-menu');
-  const toggleWeekMenuButton = container.querySelector('.toggle-week-menu');
+
+  const details = container.querySelector('.details');
+  const dayMenuDiv = details.querySelector('.day-menu');
+  const weekMenuDiv = details.querySelector('.week-menu');
+  const dayMenuContent = dayMenuDiv.querySelector('.day-menu-content');
+  const weekMenuContent = weekMenuDiv.querySelector('.week-menu-content');
+  const toggleDayMenuButton = details.querySelector('.toggle-day-menu');
+  const toggleWeekMenuButton = details.querySelector('.toggle-week-menu');
 
   toggleDayMenuButton.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -134,34 +69,33 @@ export function restaurantDropdown(
     weekMenuDiv.classList.add('hidden');
   });
 
-  toggleWeekMenuButton.addEventListener('click', (event) => {
+  toggleWeekMenuButton.addEventListener('click', async (event) => {
     event.stopPropagation();
     weekMenuDiv.classList.remove('hidden');
     dayMenuDiv.classList.add('hidden');
+
+    if (!weekMenuContent.dataset.loaded) {
+      try {
+        const weeklyMenu = await fetchWeeklyMenu(restaurant._id);
+        weekMenuDiv.innerHTML = '';
+        createWeekMenu(weeklyMenu, weekMenuDiv);
+        weekMenuContent.dataset.loaded = 'true';
+      } catch (err) {
+        console.error('Error fetching weekly menu:', err);
+        weekMenuContent.innerHTML =
+          '<p>Virhe ladattaessa viikon ruokalistaa</p>';
+      }
+    }
   });
 
   if (token) {
     const favoriteBtn = container.querySelector('.favorite-btn');
     favoriteBtn.addEventListener('click', async (event) => {
       event.stopPropagation();
-      console.log(token);
-      console.log(restaurant._id);
-
-      if (!token) {
-        alert('Kirjaudu sisään tallentaaksesi suosikin!');
-        return;
-      }
-
       try {
         const response = await saveFavoriteRestaurant(token, restaurant._id);
-
-        if (!response.ok) {
-          throw new Error('Tallennus epäonnistui');
-        }
-
         console.log(response);
-
-        favoriteBtn.textContent = '&#9829;';
+        favoriteBtn.innerHTML = '&#9829;';
       } catch (err) {
         console.error('Virhe suosikin tallennuksessa:', err);
       }
@@ -169,4 +103,27 @@ export function restaurantDropdown(
   }
 
   restaurantDiv.appendChild(container);
+}
+
+async function createDayMenu(dayMenuContent, dailyMenu) {
+  try {
+    dayMenuContent.innerHTML = dailyMenu?.courses?.length
+      ? dailyMenu.courses
+          .map((course) => {
+            let info = `<strong>${course.name}</strong>`;
+            if (course.price) {
+              info += ` - ${course.price}`;
+            }
+            if (Array.isArray(course.diets) && course.diets.length > 0) {
+              info += ` <span class="diet">${course.diets.join(', ')}</span>`;
+            }
+            return `<p>${info}</p>`;
+          })
+          .join('')
+      : '<p>Ei päivän ruokalistaa saatavilla</p>';
+    dayMenuContent.dataset.loaded = 'true';
+  } catch (error) {
+    console.error('Error fetching daily menu:', error);
+    dayMenuContent.innerHTML = '<p>Virhe ladattaessa päivän ruokalistaa</p>';
+  }
 }
