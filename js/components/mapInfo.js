@@ -1,13 +1,13 @@
 ' use strict';
 import {toggleDetails} from '../utils/domUtils.js';
+import {createWeekMenu} from './weeklyMenu.js';
 
 export const mapInfo = (restaurant, menu) => {
   const mapInfo = document.querySelector('.mapInfo');
   mapInfo.innerHTML = '';
 
   if (!restaurant) {
-    // Show map instructions
-    mapInfo.classList.remove('grid'); // Remove grid layout
+    mapInfo.classList.remove('grid');
     mapInfo.innerHTML = `
       <div id="mapInstruction">
         <p>
@@ -43,48 +43,6 @@ export const mapInfo = (restaurant, menu) => {
   const mapMenu = document.createElement('div');
   mapMenu.className = 'mapMenu';
   mapMenu.appendChild(closeBtn);
-  const section = document.createElement('section');
-
-  if (menu?.days?.length) {
-    console.log(menu);
-    menu.days.forEach((day) => {
-      const article = document.createElement('article');
-      article.className = 'day';
-      const button = document.createElement('button');
-      button.className = 'day-header';
-      button.innerHTML = `${day.date}`;
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        toggleDetails(article);
-      });
-
-      const dayDiv = document.createElement('div');
-      dayDiv.className = 'day-content';
-      const ul = document.createElement('ul');
-      ul.className = 'menu-list';
-      day.courses.forEach((course) => {
-        const li = document.createElement('li');
-        let info = `<strong>${course.name}</strong>`;
-        if (course.price) {
-          info += ` - ${course.price} `;
-        }
-        if (course.diets) {
-          info += ` <span class="diet">${course.diets}</span>`;
-        }
-        li.innerHTML = info;
-        ul.appendChild(li);
-      });
-      dayDiv.appendChild(ul);
-      article.appendChild(button);
-      article.appendChild(dayDiv);
-      section.appendChild(article);
-    });
-    mapMenu.appendChild(section);
-  } else {
-    const noMenuMessage = document.createElement('p');
-    noMenuMessage.textContent = 'Ei ruokalistaa saatavilla';
-    mapMenu.appendChild(noMenuMessage);
-  }
-
+  createWeekMenu(menu, mapMenu);
   mapInfo.appendChild(mapMenu);
 };

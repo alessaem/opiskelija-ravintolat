@@ -96,6 +96,7 @@ export function restaurantDropdown(
         const response = await saveFavoriteRestaurant(token, restaurant._id);
         console.log(response);
         favoriteBtn.innerHTML = '&#9829;';
+        window.location.reload();
       } catch (err) {
         console.error('Virhe suosikin tallennuksessa:', err);
       }
