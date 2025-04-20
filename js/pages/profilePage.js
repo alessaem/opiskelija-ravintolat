@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const select = document.getElementById('favouriteSelect');
   const deleteBtn = document.getElementById('delete-btn');
 
+  if (!token) {
+    window.location.href = 'main.html';
+  }
+
   if (deleteBtn) {
     deleteCurrentUser(deleteBtn);
   }
