@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       avatar.src = `https://media2.edu.metropolia.fi/restaurant/uploads/${user.avatar}`;
       avatarLabel.innerHTML = 'Vaihda kuva';
     } else {
-      avatar.src = '../../images/anonyme-avatar.svg';
+      avatar.src = '../images/anonyme-avatar.svg';
     }
 
     username.value = user.username;
