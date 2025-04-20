@@ -115,13 +115,13 @@ body {
 
 .accountDrop {
   display: flex;
-  flex-direction: column; /* Stack the buttons vertically */
-  gap: 10px; /* Add spacing between the buttons */
+  flex-direction: column;
+  gap: 10px;
 }
 
 .accountBtn a {
-  color: white; /* Ensure the link text is white */
-  text-decoration: none; /* Remove underline from links */
+  color: white;
+  text-decoration: none;
 }
 
 /* footer styles */
@@ -194,7 +194,7 @@ footer {
   flex: 1;
 }
 
-/* home page styles (also includes the styles for the weekly menu)*/
+/* styles for the weekly menu component */
 
 .day {
   margin-bottom: 20px;
@@ -258,6 +258,8 @@ footer {
   margin-left: 6px;
 }
 
+/* styles for the home page */
+
 #closestButton,
 #favouriteButton {
   padding: 12px 20px;
@@ -272,22 +274,7 @@ footer {
 
 .lunchList {
   text-align: center;
-}
-
-.lunchList ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.lunchList li {
-  margin-bottom: 20px;
-}
-
-.lunchList strong {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 10px;
+  padding-top: 7px;
 }
 
 /* restaurant page styles */
@@ -298,7 +285,7 @@ footer {
   right: 20px;
   padding: 10px;
   border-radius: 8px;
-  z-index: 1; /* Lower stacking order */
+  z-index: 1;
 }
 
 .filterdiv label {
@@ -513,7 +500,6 @@ footer {
 .day-menu,
 .week-menu {
   flex: 1;
-
   padding: 10px;
   background-color: #ffffff;
   border-radius: 6px;
@@ -675,10 +661,27 @@ footer {
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  width: 100%;
 }
 
 #save-btn:hover {
   background-color: #2467c1;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
 }
 
 #avatarPreview {

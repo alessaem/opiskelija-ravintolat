@@ -61,10 +61,20 @@
 
           <div class="favouriteProfile">
             <label for="favouriteSelect">Suosikki ravintola:</label>
-            <select name="favouriteSelect" id="favouriteSelect"></select>
+            <select name="favouriteSelect" id="favouriteSelect">
+              <option value=""></option>
+            </select>
           </div>
-
-          <button id="save-btn" type="submit">Tallenna muutokset</button>
+          <div class="profileButtons">
+            <div>
+              <button id="save-btn" type="submit">Tallenna muutokset</button>
+            </div>
+            <div>
+              <button id="delete-btn" type="button" class="delete-btn">
+                Poista tili
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

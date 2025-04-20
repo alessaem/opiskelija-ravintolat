@@ -5,7 +5,6 @@ export function createWeekMenu(weekMenu, weekMenuDiv) {
   const section = document.createElement('section');
 
   if (weekMenu?.days?.length) {
-    console.log(weekMenu);
     weekMenu.days.forEach((day) => {
       const article = document.createElement('article');
       article.className = 'day';

@@ -1,5 +1,10 @@
 ' use strict';
-import {getUserInfo, updateUser, uploadAvatar} from '../api/user.js';
+import {
+  getUserInfo,
+  updateUser,
+  uploadAvatar,
+  deleteUser,
+} from '../api/user.js';
 import {fetchAllRestaurants, fetchRestaurant} from '../api/restaurants.js';
 import {setupPasswordToggle} from '../utils/domUtils.js';
 
@@ -12,6 +17,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const email = document.getElementById('profileEmail');
   const form = document.getElementById('profileForm');
   const select = document.getElementById('favouriteSelect');
+  const deleteBtn = document.getElementById('delete-btn');
+
+  if (deleteBtn) {
+    deleteCurrentUser(deleteBtn);
+  }
 
   const restaurants = await fetchAllRestaurants();
   restaurants.forEach((n) => {
@@ -23,7 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (token) {
     const user = await getUserInfo(token);
-    console.log(user);
 
     if (user.avatar) {
       avatar.src = `https://media2.edu.metropolia.fi/restaurant/uploads/${user.avatar}`;
@@ -62,7 +71,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (file) {
         avatarFileName = await uploadAvatar(token, file);
-        console.log(avatarFileName);
       }
 
       const userData = {
@@ -81,7 +89,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       const result = await updateUser(token, userData);
-      console.log('Päivitys onnistui:', result);
       window.location.reload();
     } catch (err) {
       console.log('Virhe profiilin päivityksessä:', err);
@@ -90,3 +97,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 setupPasswordToggle('.togglePassword', '.password');
+const deleteCurrentUser = async (button) => {
+  button.addEventListener('click', async () => {
+    const confirmation = confirm(
+      'Haluatko varmasti poistaa tilisi? Tätä toimintoa ei voi peruuttaa.'
+    );
+    if (confirmation) {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await deleteUser(token);
+
+        if (response.ok) {
+          alert('Tilisi on poistettu onnistuneesti.');
+          localStorage.removeItem('token');
+          window.location.href = 'main.html';
+        }
+      } catch (error) {
+        console.error('Error deleting account:', error);
+        alert(`Virhe tilin poistamisessa: ${error.message}`);
+      }
+    }
+  });
+};

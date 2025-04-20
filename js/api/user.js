@@ -72,7 +72,6 @@ export const getUserInfo = async (token) => {
       },
     };
     const data = await fetchData(url, options);
-    console.log(data);
     return data;
   } catch (err) {
     console.log('error: ', err);
@@ -134,5 +133,29 @@ export const saveFavoriteRestaurant = async (token, restaurant_id) => {
     return data;
   } catch (err) {
     console.log('error: ', err);
+  }
+};
+
+export const deleteUser = async (token) => {
+  try {
+    const url = `https://media2.edu.metropolia.fi/restaurant/api/v1/users`;
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response;
+  } catch (err) {
+    console.error('Error in deleteUser:', err);
+    throw err;
   }
 };

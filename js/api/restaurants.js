@@ -59,8 +59,6 @@ export async function fetchWeeklyMenu(id) {
       },
     };
     const data = await fetchData(url, options);
-    console.log('menu week: ', data);
-
     return data;
   } catch (error) {
     console.log(error);

@@ -18,8 +18,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (token) {
       const user = await getUserInfo(token);
       const favorite = await fetchRestaurant(user.favouriteRestaurant);
-      const favoriteMenu = await fetchWeeklyMenu(favorite._id);
-      console.log(favoriteMenu);
+      let favoriteMenu;
+      if (favorite) {
+        favoriteMenu = await fetchWeeklyMenu(favorite._id);
+      }
+
       togglediv.innerHTML = `<button class="mainButton" id="closestButton">Lähin ravintola</button>
         <button class="mainButton" id="favouriteButton">
           Suosikki ravintola
@@ -35,27 +38,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       favoritebtn.addEventListener('click', () => {
         lunchlist.innerHTML = '';
-        if (favoriteMenu.length === 0) {
-          lunchlist.innerHTML = `Ei ruokalistaa saatavilla`;
+        if (favorite) {
+          if (favoriteMenu.length === 0) {
+            lunchlist.innerHTML = `Ei ruokalistaa saatavilla`;
+          } else {
+            renderRestaurantMenu(favorite, favoriteMenu, 'Suosikki ravintola');
+          }
         } else {
-          renderRestaurantMenu(favorite, favoriteMenu, 'Suosikki ravintola');
+          lunchlist.innerHTML =
+            'Ei valittua suosikkiravintolaa. Voit valita oman suosikin ravintola- tai profiilisivulla.';
         }
       });
     }
     const allRestaurants = await fetchAllRestaurants();
-    console.log(allRestaurants);
     const userCoordinates = await getUserLocation();
-    console.log(userCoordinates);
     const sortedRestaurants = await getSortedRestaurantsByDistance(
       userCoordinates,
       allRestaurants
     );
-    console.log(sortedRestaurants);
-    const closest = sortedRestaurants[0];
 
+    const closest = sortedRestaurants[0];
     const menu = await fetchWeeklyMenu(closest._id);
-    console.log(closest._id);
-    console.log(menu);
     renderRestaurantMenu(closest, menu, 'Lähin ravintola');
   } catch (error) {
     console.error('Virhe etusivun latauksessa:', error);

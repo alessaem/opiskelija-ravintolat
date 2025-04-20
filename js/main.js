@@ -10,13 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const username = loginForm.username.value;
       const password = loginForm.password.value;
-      console.log(username);
       try {
         const result = await login(username, password);
         if (result?.token) {
           localStorage.setItem('token', result.token);
 
-          window.location.reload();
+          window.location.href = 'main.html';
         } else {
           alert(result?.message || 'Kirjautuminen epäonnistui');
         }

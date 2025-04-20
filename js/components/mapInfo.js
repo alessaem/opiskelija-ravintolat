@@ -1,5 +1,4 @@
 ' use strict';
-import {toggleDetails} from '../utils/domUtils.js';
 import {createWeekMenu} from './weeklyMenu.js';
 
 export const mapInfo = (restaurant, menu) => {
